@@ -18,7 +18,7 @@ class CreateMeetingsTable  extends Migration
                     ->on('meeting_rooms');
             $table->dateTime('start_meeting')->nullable();
             $table->dateTime('finish_meeting')->nullable();
-            $table->enum('status_meeting', ['Finalizado', 'En proceso', 'Programado'])->default('En proceso');
+            $table->enum('status_meeting', ['Finalizado', 'En proceso', 'Programado'])->default('Programado');
             $table->timestamps();
             $table->softDeletes();
         });

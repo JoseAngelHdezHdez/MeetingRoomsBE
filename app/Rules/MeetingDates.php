@@ -9,15 +9,17 @@ class MeetingDates implements Rule
 {
     protected $start_date;
     protected $finish_date;
+    protected $id;
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($start_date, $finish_date)
+    public function __construct($start_date, $finish_date, $id)
     {
         $this->start_date = $start_date;
         $this->finish_date = $finish_date;
+        $this->id = $id;
     }
 
     /**
@@ -36,14 +38,17 @@ class MeetingDates implements Rule
         $meetings = Meeting::where('meeting_room_id', $value)->get();
 
         foreach ($meetings as $meeting){
-            if ($this->datesOverlap($newMeeting, $meeting)) {
+            if ($this->id === $meeting->id && $newMeeting['start_date'] === $meeting['start_meeting'] && $newMeeting['finish_date'] === $meeting['finish_meeting']) {
+                return true;
+            }
+            if ($this->datesOverlap($newMeeting, $meeting, $this->id)) {
                 return false;
             }
         }
         return true;
     }
 
-    protected function datesOverlap($newMeeting, $existingMeeting)
+    protected function datesOverlap($newMeeting, $existingMeeting, $id)
     {
         return !(
             $newMeeting['finish_date'] < $existingMeeting['start_meeting'] ||

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\MeetingDates;
+use App\Rules\VerifyHours;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MeetingRequest extends FormRequest
@@ -22,13 +23,14 @@ class MeetingRequest extends FormRequest
      */
     public function rules(): array
     {
+        $id = $this->id;
         $start_date = $this->start_meeting;
         $finish_date = $this->finish_meeting;
         return [
-            'meeting_room_id' => ['required', 'integer', 'exists:meeting_rooms,id', new MeetingDates($start_date, $finish_date)],
+            'meeting_room_id' => ['required', 'integer', 'exists:meeting_rooms,id', new MeetingDates($start_date, $finish_date, $id), new VerifyHours($start_date, $finish_date)],
             'start_meeting' => "required|date",
             'finish_meeting' => "required|date",
-            'status_meeting' => 'required|in:Finalizado,En proceso,Programado'
+            'status_meeting' => 'nullable|in:Finalizado,En proceso,Programado'
         ];
     }
 }

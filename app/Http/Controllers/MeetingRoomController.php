@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MeetingRoomRequest;
+use App\Meeting;
 use App\MeetingRoom;
 
 class MeetingRoomController extends Controller
@@ -62,6 +63,14 @@ class MeetingRoomController extends Controller
         $meeting_room->delete();
         return response()->json(
             [],
+            200
+        );
+    }
+
+    public function meetingRoomSchedule(MeetingRoom $meeting_room)
+    {
+        return response()->json(
+            Meeting::all()->where('meeting_room_id', $meeting_room->id),
             200
         );
     }

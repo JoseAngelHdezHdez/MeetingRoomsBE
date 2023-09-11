@@ -19,6 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/meeting_rooms', 'MeetingRoomController@index');
+Route::get('/meeting_rooms/{meeting_room}/meetings', 'MeetingRoomController@meetingRoomSchedule');
 Route::get('/meeting_rooms/{meeting_room}', 'MeetingRoomController@show');
 Route::post('/meeting_rooms', 'MeetingRoomController@store');
 Route::put('/meeting_rooms/{meeting_room}', 'MeetingRoomController@update');
